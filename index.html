@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber People — Email Signature Generator</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+    background: #0d1117;
+    color: #c9d1d9;
+    min-height: 100vh;
+  }
+
+  /* ── Header ───────────────────────────────── */
+  header {
+    padding: 24px 32px;
+    border-bottom: 1px solid #1a2332;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  header img { height: 36px; width: auto; }
+  header h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+  }
+  header h1 span { color: #00c8ff; }
+
+  /* ── Layout ───────────────────────────────── */
+  .container {
+    display: flex;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px;
+  }
+
+  .form-panel {
+    flex: 0 0 360px;
+  }
+
+  .preview-panel {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* ── Form ──────────────────────────────────── */
+  .form-panel h2 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #00c8ff;
+    margin-bottom: 20px;
+  }
+
+  .field { margin-bottom: 16px; }
+
+  .field label {
+    display: block;
+    font-size: 12px;
+    color: #8b949e;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 10px 12px;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    color: #c9d1d9;
+    font-size: 14px;
+    transition: border-color 0.15s;
+  }
+  .field input:focus {
+    outline: none;
+    border-color: #00c8ff;
+  }
+  .field input::placeholder { color: #484f58; }
+
+  /* ── Buttons ──────────────────────────────── */
+  .actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .btn {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+
+  .btn-primary {
+    background: #00c8ff;
+    color: #0d1117;
+  }
+  .btn-secondary {
+    background: #21262d;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+  }
+
+  /* ── Preview ──────────────────────────────── */
+  .preview-panel h2 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #00c8ff;
+    margin-bottom: 20px;
+  }
+
+  .preview-box {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 24px;
+    min-height: 180px;
+  }
+
+  /* ── Toast ─────────────────────────────────── */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: #00c8ff;
+    color: #0d1117;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.25s, transform 0.25s;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Responsive ────────────────────────────── */
+  @media (max-width: 800px) {
+    .container { flex-direction: column; }
+    .form-panel { flex: none; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="images/logo.png" width="200" height="60" alt="Cyber People"
+       onerror="this.style.display='none'">
+  <h1>Email Signature <span>Generator</span></h1>
+</header>
+
+<div class="container">
+  <!-- ── FORM ────────────────────────────────── -->
+  <div class="form-panel">
+    <h2>Your Details</h2>
+
+    <div class="field">
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" placeholder="Jane Smith">
+    </div>
+    <div class="field">
+      <label for="jobTitle">Job Title</label>
+      <input type="text" id="jobTitle" placeholder="Security Consultant">
+    </div>
+    <div class="field">
+      <label for="phone">Phone (Office)</label>
+      <input type="tel" id="phone" placeholder="+61 2 1234 5678">
+    </div>
+    <div class="field">
+      <label for="mobile">Mobile</label>
+      <input type="tel" id="mobile" placeholder="+61 400 123 456">
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="jane@cyber-people.com.au">
+    </div>
+    <div class="field">
+      <label for="website">Website</label>
+      <input type="url" id="website" placeholder="cyber-people.com.au" value="cyber-people.com.au">
+    </div>
+    <div class="field">
+      <label for="linkedin">LinkedIn URL (optional)</label>
+      <input type="url" id="linkedin" placeholder="https://linkedin.com/in/janesmith">
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="copySignature()">Copy Signature HTML</button>
+      <button class="btn btn-secondary" onclick="downloadSignature()">Download .htm</button>
+    </div>
+  </div>
+
+  <!-- ── PREVIEW ─────────────────────────────── -->
+  <div class="preview-panel">
+    <h2>Live Preview</h2>
+    <div class="preview-box" id="previewBox"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  const fields = ['fullName', 'jobTitle', 'phone', 'mobile', 'email', 'website', 'linkedin'];
+  const inputs = {};
+  fields.forEach(f => { inputs[f] = document.getElementById(f); });
+  const previewBox = document.getElementById('previewBox');
+
+  function esc(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function buildSignatureHTML() {
+    const v = {};
+    fields.forEach(f => { v[f] = inputs[f].value.trim(); });
+
+    // Build info rows
+    let rows = '';
+
+    if (v.phone) {
+      rows += '<tr><td style="padding:2px 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#555555;">' +
+        '\u260E\uFE0E&nbsp;&nbsp;<a href="tel:' + esc(v.phone) + '" style="color:#555555;text-decoration:none;">' + esc(v.phone) + '</a></td></tr>';
+    }
+    if (v.mobile) {
+      rows += '<tr><td style="padding:2px 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#555555;">' +
+        '\u2706\uFE0E&nbsp;&nbsp;<a href="tel:' + esc(v.mobile) + '" style="color:#555555;text-decoration:none;">' + esc(v.mobile) + '</a></td></tr>';
+    }
+    if (v.email) {
+      rows += '<tr><td style="padding:2px 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#555555;">' +
+        '\u2709\uFE0E&nbsp;&nbsp;<a href="mailto:' + esc(v.email) + '" style="color:#00c8ff;text-decoration:none;">' + esc(v.email) + '</a></td></tr>';
+    }
+    if (v.website) {
+      const href = v.website.startsWith('http') ? v.website : 'https://' + v.website;
+      rows += '<tr><td style="padding:2px 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#555555;">' +
+        '\u{1F310}\uFE0E&nbsp;&nbsp;<a href="' + esc(href) + '" style="color:#00c8ff;text-decoration:none;">' + esc(v.website) + '</a></td></tr>';
+    }
+    if (v.linkedin) {
+      const href = v.linkedin.startsWith('http') ? v.linkedin : 'https://' + v.linkedin;
+      rows += '<tr><td style="padding:2px 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#555555;">' +
+        'in&nbsp;&nbsp;<a href="' + esc(href) + '" style="color:#00c8ff;text-decoration:none;">LinkedIn</a></td></tr>';
+    }
+
+    const html =
+      '<table cellpadding="0" cellspacing="0" border="0" style="max-width:500px;font-family:Arial,Helvetica,sans-serif;">' +
+        '<tr>' +
+          '<td style="vertical-align:top;padding-right:16px;">' +
+            '<img src="images/logo.png" width="200" height="60" alt="Cyber People" style="display:block;border:0;">' +
+          '</td>' +
+          '<td style="vertical-align:top;border-left:2px solid #00c8ff;padding-left:16px;">' +
+            '<table cellpadding="0" cellspacing="0" border="0">' +
+              (v.fullName
+                ? '<tr><td style="padding-bottom:2px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;color:#1a1a1a;">' + esc(v.fullName) + '</td></tr>'
+                : '') +
+              (v.jobTitle
+                ? '<tr><td style="padding-bottom:8px;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#00c8ff;">' + esc(v.jobTitle) + '</td></tr>'
+                : '') +
+              rows +
+              '<tr><td style="padding-top:10px;font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#999999;letter-spacing:1px;">STAY SECURE. STAY AHEAD.</td></tr>' +
+            '</table>' +
+          '</td>' +
+        '</tr>' +
+      '</table>';
+
+    return html;
+  }
+
+  function render() {
+    previewBox.innerHTML = buildSignatureHTML();
+  }
+
+  // Live preview on every keystroke
+  fields.forEach(f => { inputs[f].addEventListener('input', render); });
+
+  // Initial render
+  render();
+
+  // ── Copy ──────────────────────────────────
+  window.copySignature = function () {
+    const html = buildSignatureHTML();
+    navigator.clipboard.writeText(html).then(() => {
+      showToast('Copied!');
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = html;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('Copied!');
+    });
+  };
+
+  // ── Download ──────────────────────────────
+  window.downloadSignature = function () {
+    const v = inputs.fullName.value.trim();
+    const slug = v
+      ? v.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+      : 'signature';
+    const filename = slug + '-signature.htm';
+    const html = buildSignatureHTML();
+    const blob = new Blob([html], { type: 'text/html' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast('Downloaded!');
+  };
+
+  // ── Toast ─────────────────────────────────
+  function showToast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.classList.remove('show'); }, 2000);
+  }
+})();
+</script>
+</body>
+</html>
